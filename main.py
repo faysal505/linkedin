@@ -12,7 +12,7 @@ db.init_app(app)
 
 
 class Link(db.Model):
-    id = db.Column(db.Integer, unique=True, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     link = db.Column(db.String(250), unique=True)
     conn = db.Column(db.Integer, default=0)
 
@@ -27,6 +27,7 @@ with app.app_context():
 @app.route('/')
 def home():
     records = Link.query.filter_by(conn=0).order_by(Link.id.desc()).all()
+    # print(records)
     all_records = []
     for record in records:
         record_data = {
@@ -54,10 +55,10 @@ def submit():
     if request.method == "POST":
         links = request.form["link"]
         match_list = re.findall('https://www.linkedin.com/in/[a-z-0-9]*', links)
-        # total = Link.query.count() + 1
         for i in match_list:
+            total = Link.query.count()
             if not Link.query.filter_by(link=i).first():
-                add = Link(link=i)
+                add = Link(id=total, link=i)
                 db.session.add(add)
                 db.session.commit()
         return redirect(url_for('seq'))
