@@ -54,12 +54,13 @@ def submit():
     if request.method == "POST":
         links = request.form["link"]
         match_list = re.findall('https://www.linkedin.com/in/[a-z-0-9]*', links)
+        # total = Link.query.count() + 1
         for i in match_list:
             if not Link.query.filter_by(link=i).first():
                 add = Link(link=i)
                 db.session.add(add)
                 db.session.commit()
-        return redirect(url_for('home'))
+        return redirect(url_for('seq'))
 
     if request.method == "GET":
         return redirect(url_for('home'))
