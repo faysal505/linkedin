@@ -74,7 +74,7 @@ def delete():
         if record:
             db.session.delete(record)
             db.session.commit()
-    return redirect(url_for("home"))
+    return redirect(url_for("seq"))
 
 @app.route("/status", methods=["POST", "GET"])
 def status():
