@@ -13,7 +13,7 @@ db.init_app(app)
 
 class Link(db.Model):
     id = db.Column(db.Integer, unique=True, primary_key=True, autoincrement=True)
-    link = db.Column(db.String(150), unique=True)
+    link = db.Column(db.String(250), unique=True)
     conn = db.Column(db.Integer, default=0)
 
 
