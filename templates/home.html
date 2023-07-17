@@ -39,23 +39,23 @@
   </div>
 
 
-  <table class="table">
-    <tr>
-      <th>sl</th>
-      <th>link</th>
-      <!-- <th>button</th> -->
-    </tr>
+  <div class="container">
+    <table class="table mx-2">
+      <tr>
+        <th>sl</th>
+        <th>link</th>
+        <!-- <th>button</th> -->
+      </tr>
 
-    {% for record in data %}
-    <tr>
-      <td>{{record.id}}</td>
-      <td><a href="{{record.link}}" target="blank">{{record.link}}</a></td>
-      <!-- <td>{{record.conn}}</td> -->
-    </tr>
-    {%endfor%}
-
-
-  </table>
+      {% for record in data %}
+      <tr>
+        <td>{{record.id}}</td>
+        <td><a href="{{record.link}}" target="blank">{{record.link}}</a></td>
+        <!-- <td>{{record.conn}}</td> -->
+      </tr>
+      {%endfor%}
+    </table>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
     crossorigin="anonymous"></script>
