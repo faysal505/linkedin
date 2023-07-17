@@ -7,17 +7,34 @@
   <title>Profile Link</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+  <style>
+    a:focus {
+      color: red;
+    }
+  </style>
 </head>
 
 <body>
 
 
-  <div class="container">
+  <div class="container mt-4">
     <form action="/submit" method="post">
-      <div>
+      <div class="mb-2">
         <textarea name="link" class="form-control" id="" cols="30" rows="10"></textarea>
       </div>
-      <div><button type="submit" class="btn btn-success">Submit</button></div>
+      <div class="d-flex justify-content-center mb-2"><button type="submit" class="btn btn-success">Submit</button>
+      </div>
+    </form>
+
+    <form action="/status" method="post" class="d-flex justify-content-center mb-2">
+      <input type="text" name="id" class="form-control w-25 d-inline-block">
+      <button type="submit" class="btn btn-success">Hide</button>
+    </form>
+
+    <form action="/delete" method="post" class="d-flex justify-content-center">
+      <input type="text" name="id" class="form-control w-25 d-inline-block">
+      <button type="submit" class="btn btn-success">Delete</button>
     </form>
   </div>
 
@@ -26,24 +43,18 @@
     <tr>
       <th>sl</th>
       <th>link</th>
-      <th>button</th>
+      <!-- <th>button</th> -->
     </tr>
 
     {% for record in data %}
     <tr>
       <td>{{record.id}}</td>
       <td><a href="{{record.link}}" target="blank">{{record.link}}</a></td>
-      <td>{{record.conn}}</td>
+      <!-- <td>{{record.conn}}</td> -->
     </tr>
     {%endfor%}
 
 
-
-    <!-- <tr>
-      <td>1</td>
-      <td><a href="https://www.linkedin.com/in/noman-farookhi-26877b283" target="blank">https://www.linkedin.com/in/noman-farookhi-26877b283</a></td>
-      <td>30</td>
-    </tr> -->
   </table>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
