@@ -48,6 +48,13 @@ def seq():
         db.session.commit()
     return redirect(url_for('home'))
 
+@app.route('/seq2')
+def seq2():
+    link_list = Link.query.all()
+    print(link_list[28])
+    # for index, value in enumerate(link_list):
+    #     print(index, " = ", value)
+    return redirect(url_for('home'))
 
 
 @app.route("/submit", methods=["POST", "GET"])
