@@ -68,7 +68,7 @@ def submit():
                 add = Link(id=total, link=i)
                 db.session.add(add)
                 db.session.commit()
-        return redirect(url_for('seq'))
+        return redirect(url_for('home'))
 
     if request.method == "GET":
         return redirect(url_for('home'))
