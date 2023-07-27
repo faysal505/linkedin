@@ -12,8 +12,6 @@
     a:focus {
       color: red;
     }
-
-
   </style>
 </head>
 
@@ -22,7 +20,7 @@
 
   <div class="container-sm
   
-  mt-4 posi pp">
+  mt-4 posi">
     <form action="/submit" method="post">
       <div class="mb-2">
         <textarea name="link" class="form-control" id="" cols="30" rows="10"></textarea>
@@ -37,29 +35,26 @@
       <button type="submit" class="btn btn-success">Hide</button>
     </form>
 
-<!--    <form action="/delete" method="post" class="d-flex justify-content-center">-->
-<!--      <input type="text" name="id" class="form-control w-75 d-inline-block">-->
-<!--      <button type="submit" class="btn btn-success">Delete</button>-->
-<!--    </form>-->
+    <!--    <form action="/delete" method="post" class="d-flex justify-content-center">-->
+    <!--      <input type="text" name="id" class="form-control w-75 d-inline-block">-->
+    <!--      <button type="submit" class="btn btn-success">Delete</button>-->
+    <!--    </form>-->
   </div>
 
 
-
-
-
-  <div class="container">
+  <div class="container-sm">
     <table class="table mx-2">
       <tr>
         <th>sl</th>
         <th>link</th>
-        <!-- <th>button</th> -->
+        <th>id</th>
       </tr>
 
-      {% for record in data %}
+      {% for index in range(1, data | length) %}
       <tr>
-        <td>{{record.id}}</td>
-        <td><a href="{{record.link}}" target="blank">{{record.link}}</a></td>
-        <!-- <td>{{record.conn}}</td> -->
+        <td>{{index}}</td>
+        <td><a href="{{data[index].link}}" target="blank">{{data[index].link}}</a></td>
+        <td>{{data[index].id}}</td>
       </tr>
       {%endfor%}
     </table>
