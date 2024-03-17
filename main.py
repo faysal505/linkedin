@@ -1,102 +1,45 @@
-from flask import Flask, request, render_template, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, request
 import re
-
-
+import requests
 
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://test_5cpl_user:ugNXvrq0UNGIFap2bAnxOe9STtnENlEp@dpg-ciprjmd9aq0dcpvqsg10-a.singapore-postgres.render.com/test_5cpl"
-db = SQLAlchemy()
-db.init_app(app)
 
-
-class Link(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    link = db.Column(db.String(250), unique=True)
-    conn = db.Column(db.Integer, default=0)
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    return render_template('index.html')
 
 
 
 
-with app.app_context():
-    db.create_all()
 
+@app.route('/sub', methods=['GET', 'POST'])
+def sub():
+    if request.method == 'POST':
+        text = request.form['link']
+        pattern = r"https://teraboxapp\.com/s/[^\s]+"
+        links = re.findall(pattern, text)
+        # links = text.split(" ")
+        print(links)
+        names = []
+        for index, link in enumerate(links):
+            headers = {'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0"}
+            create_link = f"https://terabox-test1.vercel.app/api?data={link}"
+            direct_link = requests.get(create_link, headers=headers).json()['direct_link']
+            response = requests.get(direct_link, stream=True)
+            response.raise_for_status()
+            file_name = f"static/video{index}.mp4"
+            names.append(file_name)
+            with open(file_name, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=1024 * 1024):
+                    if chunk:
+                        f.write(chunk)
+            print("Download complete.")
+        print(len(names))
+        return render_template("show.html", vid=names)
 
-
-@app.route('/')
-def home():
-    records = Link.query.filter_by(conn=0).order_by(Link.id.desc()).all()
-    # print(records)
-    all_records = []
-    for record in records:
-        record_data = {
-            'id': record.id,
-            'link': record.link,
-            'conn': record.conn
-        }
-        all_records.append(record_data)
-    # print(all_records)
-    return render_template("home.html", data=all_records)
-
-
-@app.route('/seq')
-def seq():
-    link_list = Link.query.all()
-    for index, value in enumerate(link_list):
-        value.id = index
-        db.session.commit()
-    return redirect(url_for('home'))
-
-@app.route('/seq2')
-def seq2():
-    link_list = Link.query.all()
-    # print(link_list[77])
-    for index, value in enumerate(link_list):
-        print(index, " = ", value)
-    return redirect(url_for('home'))
-
-
-@app.route("/submit", methods=["POST", "GET"])
-def submit():
-    if request.method == "POST":
-        links = request.form["link"]
-        match_list = re.findall('https://www.linkedin.com/in/[a-z-0-9]*', links)
-        for i in match_list:
-            total = Link.query.count()
-            if not Link.query.filter_by(link=i).first():
-                add = Link(id=total, link=i)
-                db.session.add(add)
-                db.session.commit()
-        return redirect(url_for('home'))
-
-    if request.method == "GET":
-        return redirect(url_for('home'))
-
-
-
-@app.route("/delete", methods=["POST", "GET"])
-def delete():
-    if request.method == "POST":
-        id = request.form['id']
-        record = Link.query.get(id)
-        if record:
-            db.session.delete(record)
-            db.session.commit()
-    return redirect(url_for("seq"))
-
-@app.route("/status", methods=["POST", "GET"])
-def status():
-    if request.method == "POST":
-        id = request.form['id']
-        record = Link.query.get(id)
-        if record:
-            record.conn = 1
-            db.session.commit()
-    return redirect(url_for("home"))
-
-
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
+
+
+# https://www.1024tera.com/sharing/link?surl=g8JFl_MqxwB4UlHhujtrfQ https://teraboxapp.com/s/1V8WLeu65eiiFNvri6HujEQ
