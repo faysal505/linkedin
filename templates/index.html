@@ -13,19 +13,6 @@
         <input type="submit" value="Submit">
     </form>
     <button onclick="pasteFromClipboard()">Paste Clipboard</button>
-    <button onclick="document.getElementById('input_text').value = ''>Clear</button>
 
-
-    <script>
-    function pasteFromClipboard() {
-        // Get the clipboard contents
-        navigator.clipboard.readText().then(clipText => {
-            // Paste the clipboard contents into the input field
-            document.getElementById('input_text').value = clipText;
-        }).catch(err => {
-            console.error('Failed to read clipboard contents: ', err);
-        });
-    }
-</script>
 </body>
 </html>
